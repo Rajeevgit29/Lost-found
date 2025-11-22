@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lost&Found | The Future of Recovery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --font-sans: 'Outfit', sans-serif;
+        --font-display: 'Space Grotesk', sans-serif;
+      }
+      body {
+        font-family: var(--font-sans);
+        background-color: #050505;
+        color: #ffffff;
+        overflow-x: hidden;
+      }
+      .font-display {
+        font-family: var(--font-display);
+      }
+      /* Hide scrollbar for clean look */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #09090b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #27272a;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #3f3f46;
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              obsidian: '#09090B',
+              charcoal: '#18181B',
+              electric: '#6366F1',
+              neon: '#22D3EE',
+            },
+            animation: {
+              'spin-slow': 'spin 8s linear infinite',
+              'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            }
+          }
+        }
+      }
+    </script>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
+    "three": "https://aistudiocdn.com/three@^0.181.2",
+    "three/": "https://aistudiocdn.com/three@^0.181.2/",
+    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.24",
+    "@react-three/drei": "https://aistudiocdn.com/@react-three/drei@^10.7.7",
+    "@react-three/fiber": "https://aistudiocdn.com/@react-three/fiber@^9.4.0",
+    "gsap": "https://aistudiocdn.com/gsap@^3.12.5",
+    "gsap/Flip": "https://aistudiocdn.com/gsap@^3.12.5/Flip",
+    "gsap/": "https://aistudiocdn.com/gsap@^3.13.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
