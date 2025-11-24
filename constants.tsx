@@ -44,31 +44,51 @@ export const MOCK_ITEMS: Item[] = [
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: '1',
-    text: "Found my MacBook in under 30 minutes. The AI matching is absolutely unreal.",
+    text: "Found my MacBook in under 30 minutes. The AI matching is absolutely unreal. I was panic-stricken until I got the notification.",
     name: "Sarah K.",
     role: "Design Student",
-    avatar: "https://picsum.photos/100/100?random=10"
+    avatar: "https://picsum.photos/100/100?random=10",
+    rating: 5
   },
   {
     id: '2',
-    text: "I thought my wallet was gone forever. Someone reported it instantly. Lifesaver.",
+    text: "I thought my wallet was gone forever. Someone reported it instantly. The verification process made me feel so secure.",
     name: "Mike T.",
     role: "Engineering",
-    avatar: "https://picsum.photos/100/100?random=11"
+    avatar: "https://picsum.photos/100/100?random=11",
+    rating: 5
   },
   {
     id: '3',
-    text: "This is what the future of campus utility looks like. Smooth, fast, and beautiful.",
+    text: "This is what the future of campus utility looks like. Smooth, fast, and beautiful. Every university needs this.",
     name: "Alex R.",
     role: "CS Major",
-    avatar: "https://picsum.photos/100/100?random=12"
+    avatar: "https://picsum.photos/100/100?random=12",
+    rating: 5
   },
   {
     id: '4',
-    text: "Best thing to happen to our campus. The map feature is super helpful.",
+    text: "Best thing to happen to our campus. The map feature is super helpful for visualizing where items are being found.",
     name: "Emma L.",
     role: "Biology",
-    avatar: "https://picsum.photos/100/100?random=13"
+    avatar: "https://picsum.photos/100/100?random=13",
+    rating: 4
+  },
+  {
+    id: '5',
+    text: "I reported a lost ID and got a match notification before I even finished walking to class. Incredible speed.",
+    name: "David Chen",
+    role: "Business",
+    avatar: "https://picsum.photos/100/100?random=14",
+    rating: 5
+  },
+  {
+    id: '6',
+    text: "The interface is stunning. It doesn't feel like a boring utility app, it feels like a premium experience.",
+    name: "Jessica M.",
+    role: "Architecture",
+    avatar: "https://picsum.photos/100/100?random=15",
+    rating: 5
   }
 ];
 

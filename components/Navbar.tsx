@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, ChevronRight, User as UserIcon, LogOut, GraduationCap } from 'lucide-react';
+import { Menu, X, Search, ChevronRight, User as UserIcon, LogOut, GraduationCap, Sparkles } from 'lucide-react';
 import { User } from '../types';
 
 interface NavbarProps {
   user: User | null;
   onSignIn: () => void;
   onSignOut: () => void;
+  onOpenProfile: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ user, onSignIn, onSignOut }) => {
+const Navbar: React.FC<NavbarProps> = ({ user, onSignIn, onSignOut, onOpenProfile }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoPosition, setLogoPosition] = useState({ x: 0, y: 0 });
@@ -108,13 +109,15 @@ const Navbar: React.FC<NavbarProps> = ({ user, onSignIn, onSignOut }) => {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <div 
-          className="flex items-center gap-2 cursor-pointer group relative z-50"
+          className="flex items-center gap-3 cursor-pointer group relative z-50"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           onMouseMove={handleLogoMouseMove}
           onMouseLeave={handleLogoMouseLeave}
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-electric to-indigo-600 flex items-center justify-center text-white font-bold text-sm group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(99,102,241,0.3)] border border-white/10">
-            LF
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-electric via-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-[0_0_25px_rgba(99,102,241,0.5)] border border-white/10 group-hover:scale-110 transition-transform duration-300 relative overflow-hidden">
+            <Search className="w-5 h-5 stroke-[2.5] relative z-10" />
+            <div className="absolute top-2 right-2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_5px_white] animate-pulse z-10" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </div>
           <motion.span 
             animate={{ x: logoPosition.x, y: logoPosition.y }}
@@ -126,7 +129,7 @@ const Navbar: React.FC<NavbarProps> = ({ user, onSignIn, onSignOut }) => {
         </div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-2 p-1 rounded-full bg-white/5 border border-white/5 backdrop-blur-sm">
+        <div className="hidden md:flex items-center gap-2 p-1 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
           {navItems.map((item) => (
             <a
               key={item.name}
@@ -170,20 +173,20 @@ const Navbar: React.FC<NavbarProps> = ({ user, onSignIn, onSignOut }) => {
                 {user.university}
               </div>
 
-              {/* User Profile Dropdown Trigger (Simplified) */}
+              {/* User Profile Trigger */}
               <div className="flex items-center gap-3 pl-3 border-l border-white/10">
                 <div className="text-right hidden lg:block">
                   <div className="text-sm font-medium text-white">{user.name}</div>
                 </div>
                 <button 
-                  onClick={onSignOut}
-                  className="w-9 h-9 rounded-full bg-gradient-to-br from-zinc-700 to-zinc-800 border border-white/10 flex items-center justify-center text-white hover:ring-2 hover:ring-electric/50 transition-all group relative"
-                  title="Sign Out"
+                  onClick={onOpenProfile}
+                  className="w-9 h-9 rounded-full bg-gradient-to-br from-zinc-700 to-zinc-800 border border-white/10 flex items-center justify-center text-white hover:ring-2 hover:ring-electric/50 transition-all group relative overflow-hidden"
+                  title="View Profile"
                 >
-                  <span className="font-bold text-xs group-hover:hidden">
+                  <span className="font-bold text-xs group-hover:hidden transition-all duration-300">
                     {user.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
                   </span>
-                  <LogOut className="w-4 h-4 hidden group-hover:block text-rose-400" />
+                  <UserIcon className="w-4 h-4 hidden group-hover:block text-electric absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300" />
                 </button>
               </div>
             </div>
