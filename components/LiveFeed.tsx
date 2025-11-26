@@ -57,8 +57,8 @@ const ItemCard: React.FC<{ item: typeof MOCK_ITEMS[0]; index: number }> = ({ ite
     y.set(0);
   };
 
-  // Pulse color based on status
-  const pulseColor = item.status === 'found' ? 'rgba(16, 185, 129, 0.5)' : 'rgba(244, 63, 94, 0.5)';
+  // Pulse color based on status (Hex values for shadow interpolation)
+  const pulseColor = item.status === 'found' ? '#10b981' : '#f43f5e';
 
   return (
     <motion.div
@@ -105,13 +105,13 @@ const ItemCard: React.FC<{ item: typeof MOCK_ITEMS[0]; index: number }> = ({ ite
           animate={isHovered ? {
             scale: [1, 1.05, 1],
             boxShadow: [
-              `0 0 0 0 ${pulseColor}`,
-              `0 0 0 6px rgba(255,255,255,0)`,
-              `0 0 0 0 rgba(255,255,255,0)`
+              `0 0 0px 0px ${pulseColor}00`, // Transparent
+              `0 0 15px 2px ${pulseColor}80`, // Glow with opacity
+              `0 0 0px 0px ${pulseColor}00`  // Transparent
             ]
           } : {
             scale: 1,
-            boxShadow: "0 0 0 0 transparent"
+            boxShadow: "0 0 0px 0px transparent"
           }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
@@ -199,7 +199,7 @@ const LiveFeed: React.FC<{ university?: string }> = ({ university }) => {
   return (
     <section id="live-feed" className="py-32 relative bg-obsidian min-h-[800px]">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
           <div>
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
@@ -218,7 +218,7 @@ const LiveFeed: React.FC<{ university?: string }> = ({ university }) => {
           </div>
           
           <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto scrollbar-hide">
-            {['All', 'Electronics', 'Clothing', 'Keys', 'Books'].map((filter) => (
+            {['All', 'Electronics', 'Clothing', 'Keys', 'Books', 'Other'].map((filter) => (
               <button 
                 key={filter}
                 onClick={() => handleFilterChange(filter)}

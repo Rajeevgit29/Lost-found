@@ -36,6 +36,15 @@
       ::-webkit-scrollbar-thumb:hover {
         background: #3f3f46;
       }
+      
+      /* Utility for hiding scrollbars */
+      .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+      }
+      .scrollbar-hide {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+      }
     </style>
     <script>
       tailwind.config = {

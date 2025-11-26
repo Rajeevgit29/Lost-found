@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ArrowRight, X, Camera, Loader2, Upload, Trash2, ChevronDown, Building, Mail, Lock } from 'lucide-react';
+import { Search, ArrowRight, X, Camera, Loader2, Upload, Trash2, ChevronDown, Building, Mail, Lock, User, LogOut } from 'lucide-react';
 import Navbar from './components/Navbar';
 import HeroScene from './components/HeroScene';
 import LiveFeed from './components/LiveFeed';
 import Features from './components/Features';
 import Testimonials from './components/Testimonials';
 import Footer from './components/Footer';
-import { User } from './types';
+import { User as UserType } from './types';
 
 const UNIVERSITIES = [
   "Stanford University",
@@ -15,7 +15,8 @@ const UNIVERSITIES = [
   "UC Berkeley",
   "Harvard University",
   "UCLA",
-  "University of Washington"
+  "University of Washington",
+  "Other"
 ];
 
 const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
@@ -44,23 +45,94 @@ const Preloader: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
   );
 };
 
-const SignInModal: React.FC<{ onClose: () => void; onSignIn: (user: User) => void }> = ({ onClose, onSignIn }) => {
+const UserProfileModal: React.FC<{ user: UserType; onClose: () => void; onSignOut: () => void }> = ({ user, onClose, onSignOut }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md"
+    >
+      <div className="absolute inset-0" onClick={onClose} />
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0, y: 20 }}
+        className="relative w-full max-w-md bg-[#18181B] border border-white/10 rounded-3xl overflow-hidden shadow-2xl z-10"
+      >
+        <div className="p-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
+          <h2 className="text-xl font-display font-bold text-white">My Profile</h2>
+          <button 
+            onClick={onClose} 
+            className="text-zinc-400 hover:text-white transition-colors p-2 hover:bg-white/10 rounded-full"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        <div className="p-8 flex flex-col items-center">
+           <div className="w-24 h-24 rounded-full bg-gradient-to-br from-zinc-700 to-zinc-800 border-4 border-obsidian shadow-xl flex items-center justify-center text-3xl font-bold text-white mb-6">
+              {user.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+           </div>
+           
+           <div className="w-full space-y-4">
+              <div className="space-y-1">
+                 <label className="text-xs font-medium text-zinc-500 uppercase tracking-wider ml-1">Full Name</label>
+                 <div className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white flex items-center gap-3">
+                    <User className="w-5 h-5 text-zinc-500" />
+                    {user.name}
+                 </div>
+              </div>
+              <div className="space-y-1">
+                 <label className="text-xs font-medium text-zinc-500 uppercase tracking-wider ml-1">Email Address</label>
+                 <div className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white flex items-center gap-3">
+                    <Mail className="w-5 h-5 text-zinc-500" />
+                    {user.email}
+                 </div>
+              </div>
+              <div className="space-y-1">
+                 <label className="text-xs font-medium text-zinc-500 uppercase tracking-wider ml-1">University</label>
+                 <div className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white flex items-center gap-3">
+                    <Building className="w-5 h-5 text-zinc-500" />
+                    {user.university}
+                 </div>
+              </div>
+           </div>
+
+           <button 
+             onClick={() => { onSignOut(); onClose(); }}
+             className="w-full mt-8 py-3.5 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 font-bold flex items-center justify-center gap-2 hover:bg-red-500/20 transition-colors"
+           >
+             <LogOut className="w-4 h-4" />
+             Sign Out
+           </button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+const SignInModal: React.FC<{ onClose: () => void; onSignIn: (user: UserType) => void }> = ({ onClose, onSignIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [university, setUniversity] = useState(UNIVERSITIES[0]);
+  const [customUniversity, setCustomUniversity] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
+    // Determine final university string
+    const finalUniversity = university === 'Other' ? customUniversity : university;
+
     // Simulate API call
     setTimeout(() => {
       setIsSubmitting(false);
       onSignIn({
         name: "Student User",
         email,
-        university
+        university: finalUniversity || "Unknown University"
       });
       onClose();
     }, 1500);
@@ -107,6 +179,23 @@ const SignInModal: React.FC<{ onClose: () => void; onSignIn: (user: User) => voi
                  </select>
                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 pointer-events-none" />
                </div>
+               
+               {university === 'Other' && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="mt-2"
+                  >
+                     <input 
+                       type="text" 
+                       value={customUniversity}
+                       onChange={(e) => setCustomUniversity(e.target.value)}
+                       placeholder="Enter your university name"
+                       className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3.5 text-white outline-none focus:border-electric focus:ring-1 focus:ring-electric/50 transition-all placeholder:text-zinc-600"
+                       required={university === 'Other'}
+                     />
+                  </motion.div>
+               )}
             </div>
 
             <div className="space-y-2">
@@ -383,8 +472,9 @@ const App: React.FC = () => {
   const [placeholderText, setPlaceholderText] = useState("");
   
   // Auth State
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [signInModalOpen, setSignInModalOpen] = useState(false);
+  const [userProfileModalOpen, setUserProfileModalOpen] = useState(false);
 
   // Modal State
   const [reportModalOpen, setReportModalOpen] = useState(false);
@@ -442,7 +532,7 @@ const App: React.FC = () => {
     setReportModalOpen(true);
   };
 
-  const handleSignIn = (userData: User) => {
+  const handleSignIn = (userData: UserType) => {
     setUser(userData);
   };
 
@@ -463,6 +553,13 @@ const App: React.FC = () => {
         {signInModalOpen && (
           <SignInModal onClose={() => setSignInModalOpen(false)} onSignIn={handleSignIn} />
         )}
+        {user && userProfileModalOpen && (
+          <UserProfileModal 
+            user={user} 
+            onClose={() => setUserProfileModalOpen(false)} 
+            onSignOut={handleSignOut} 
+          />
+        )}
       </AnimatePresence>
 
       <div className={`min-h-screen bg-obsidian text-white selection:bg-electric selection:text-white ${loading ? 'h-screen overflow-hidden' : ''}`}>
@@ -470,6 +567,7 @@ const App: React.FC = () => {
           user={user}
           onSignIn={() => setSignInModalOpen(true)}
           onSignOut={handleSignOut}
+          onOpenProfile={() => setUserProfileModalOpen(true)}
         />
         
         {/* Hero Section */}
